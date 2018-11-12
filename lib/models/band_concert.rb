@@ -1,2 +1,2 @@
-class ArtistConcert < ActiveRecord::Base
+class BandConcert < ActiveRecord::Base
 end
