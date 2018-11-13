@@ -1,5 +1,6 @@
 class CommandLineInterface
 
+
   def greet
     puts "======================================================"
     puts "Welcome to Headliners."
@@ -10,18 +11,30 @@ class CommandLineInterface
 
   def gets_user_input
     puts "Type 'Festivals' or 'Headliners' for more information."
-    response = gets.chomp
+    gets.chomp
   end
 
 
   def display_festivals
-    puts "1. Coachelle"
-    puts "2. Electric Zoo"
-    binding.pry
+
+    Concert.all.each do |concert|
+      puts concert[:title]
+
+    end
+
   end
 
   def headliners
     puts "Eminiem"
     puts "The Killers"
+  end
+
+  def run
+    greet
+    input = gets_user_input
+    # if user types "Festivals," run display_festivals.
+    if input == "Festivals"
+      display_festivals
+    end
   end
 end
