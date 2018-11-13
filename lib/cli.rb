@@ -3,6 +3,7 @@ class CommandLineInterface
   def greet
     puts "======================================================"
     puts "Welcome to Headliners."
+    puts "Keep up with your favorite bands, never miss a show!"
     puts "Type 'exit' at any time to quit the app."
     puts "Type 'Festivals' or 'Headliners' for more information."
     puts "======================================================"
