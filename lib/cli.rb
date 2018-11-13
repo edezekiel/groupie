@@ -5,17 +5,19 @@ class CommandLineInterface
     puts "Welcome to Headliners."
     puts "Keep up with your favorite bands, never miss a show!"
     puts "Type 'exit' at any time to quit the app."
-    puts "Type 'Festivals' or 'Headliners' for more information."
     puts "======================================================"
   end
 
   def gets_user_input
-    gets.chomp
+    puts "Type 'Festivals' or 'Headliners' for more information."
+    response = gets.chomp
   end
 
-  def festivals
+
+  def display_festivals
     puts "1. Coachelle"
     puts "2. Electric Zoo"
+    binding.pry
   end
 
   def headliners
