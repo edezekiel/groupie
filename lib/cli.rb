@@ -44,9 +44,8 @@ class CommandLineInterface
     pastel
     separator
     input = gets_user_input
-    binding.pry
     puts "Here are the Headliners:"
-    puts Session.where(concert_id: input)
+    puts Concert.where(id: input).bands.name
       # puts "#{index + 1}. #{band.name}"
     #displays the Headliners for concerts
     # puts "Eminiem"
