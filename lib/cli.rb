@@ -43,8 +43,8 @@ class CommandLineInterface
   def headliners
     pastel
     separator
-    puts "Here are the Headliners:"
     input = gets_user_input
+    puts "Here are the Headliners:"
     binding.pry
     Band.all.each_with_index do |band, index|
       puts "#{index + 1}. #{band.name}"
