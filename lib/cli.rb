@@ -40,11 +40,12 @@ class CommandLineInterface
     separator
     puts "Type the festival number to see the headliners. For "
     puts "example, type #{pastel.bright_cyan("2")} to see Electric Zoo's headliners."
+    gets.chomp
   end
 
   def headliners
-    puts "Eminiem"
-    puts "The Killers"
+
+
   end
 
   def run
