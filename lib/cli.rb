@@ -24,7 +24,8 @@ class CommandLineInterface
   def gets_user_input
     pastel
     separator
-    puts "Type #{pastel.bright_cyan('Festivals')} or #{pastel.bright_cyan('Headliners')} for more information."
+    puts "Type #{pastel.bright_cyan('Festivals')} or #{pastel.bright_cyan
+    ('Headliners')} for more information."
     puts "                                                      "
     gets.chomp
   end
