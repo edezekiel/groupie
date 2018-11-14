@@ -1,4 +1,4 @@
 class Band < ActiveRecord::Base
-  has_many :bandsconcerts
-  has_many :concerts, through: :bandsconcerts
+  has_many :sessions
+  has_many :concerts, through: :sessions
 end

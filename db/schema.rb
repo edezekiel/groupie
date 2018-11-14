@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 3) do
+ActiveRecord::Schema.define(version: 4) do
 
   create_table "bands", force: :cascade do |t|
     t.string  "name"
@@ -18,15 +18,15 @@ ActiveRecord::Schema.define(version: 3) do
     t.integer "num_of_members"
   end
 
-  create_table "bandsconcerts", force: :cascade do |t|
-    t.integer "band_id"
-    t.integer "concert_id"
-  end
-
   create_table "concerts", force: :cascade do |t|
     t.string  "title"
     t.string  "location"
     t.integer "price"
+  end
+
+  create_table "sessions", force: :cascade do |t|
+    t.integer "band_id"
+    t.integer "concert_id"
   end
 
 end
