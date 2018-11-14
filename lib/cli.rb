@@ -24,7 +24,8 @@ class CommandLineInterface
   def gets_user_input
     pastel
     separator
-    puts "Type #{pastel.bright_cyan('Festivals')} or #{pastel.bright_cyan('Headliners')} for more information."
+    puts "Type #{pastel.bright_cyan('Festivals')} or #{pastel.bright_cyan
+    ('Headliners')} for more information."
     puts "                                                      "
     gets.chomp
   end
@@ -39,7 +40,8 @@ class CommandLineInterface
     end
     separator
     puts "Type the festival number to see the headliners. For "
-    puts "example, type #{pastel.bright_cyan("2")} to see Electric Zoo's headliners."
+    puts "example, type #{pastel.bright_cyan("2")} to see Electric Zoo's
+    headliners."
   end
 
   def headliners
