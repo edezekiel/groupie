@@ -22,11 +22,8 @@ class CommandLineInterface
   end
 
   def gets_user_input
-    pastel
-    separator
-    puts "Type #{pastel.bright_cyan('Festivals')} or #{pastel.bright_cyan('Headliners')} for more information."
-    puts "                                                      "
     gets.chomp
+
   end
 
   def display_festivals
@@ -40,6 +37,7 @@ class CommandLineInterface
     separator
     puts "Type the festival number to see the headliners. For "
     puts "example, type #{pastel.bright_cyan("2")} to see Electric Zoo's headliners."
+
   end
 
   def headliners
@@ -49,11 +47,20 @@ class CommandLineInterface
 
   def run
     greet
-    input = gets_user_input
+    puts "Type #{pastel.bright_cyan('Festivals')} or #{pastel.bright_cyan('Headliners')} for more information."
+    puts "  "
+    # input = gets_user_input
     # if user types "Festivals," run display_festivals.
+    input = gets_user_input
+
     if input == "Festivals"
       display_festivals
+  input = gets_user_input
+  binding.pry
+      headliners
     end
     separator
+    # input = gets_user_input
+    # if input ==
   end
 end
