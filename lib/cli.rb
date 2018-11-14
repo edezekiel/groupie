@@ -44,12 +44,10 @@ class CommandLineInterface
     pastel
     separator
     input = gets_user_input
-    puts "Here are the Headliners:"
     binding.pry
-    Band.all.each_with_index do |band, index|
-      puts "#{index + 1}. #{band.name}"
-    end
-
+    puts "Here are the Headliners:"
+    puts Session.where(concert_id: input)
+      # puts "#{index + 1}. #{band.name}"
     #displays the Headliners for concerts
     # puts "Eminiem"
     # puts "The Killers"
