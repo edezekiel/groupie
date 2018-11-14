@@ -45,11 +45,19 @@ class CommandLineInterface
     separator
     input = gets_user_input
     puts "Here are the Headliners:"
-    puts Concert.where(id: input).bands.name
+    selected_bands = Concert.find(input).bands
+    binding.pry
+    selected_bands.each do |band|
+      puts band.name
+    end
       # puts "#{index + 1}. #{band.name}"
     #displays the Headliners for concerts
     # puts "Eminiem"
     # puts "The Killers"
+  end
+
+  def exit
+    puts "Thank you for using our app!"
   end
 
   def run
@@ -60,9 +68,10 @@ class CommandLineInterface
     # if user types "Festivals," run display_festivals.
     input = gets_user_input
 
-    if input == "Festivals"
+    if input == "exit"
+      exit
+    elsif input == "Festivals"
       display_festivals
-
       headliners
     end
     separator
