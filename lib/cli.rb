@@ -41,8 +41,18 @@ class CommandLineInterface
   end
 
   def headliners
-    puts "Eminiem"
-    puts "The Killers"
+    pastel
+    separator
+    puts "Here are the Headliners:"
+    input = gets_user_input
+    binding.pry
+    Band.all.each_with_index do |band, index|
+      puts "#{index + 1}. #{band.name}"
+    end
+
+    #displays the Headliners for concerts
+    # puts "Eminiem"
+    # puts "The Killers"
   end
 
   def run
@@ -55,12 +65,9 @@ class CommandLineInterface
 
     if input == "Festivals"
       display_festivals
-  input = gets_user_input
-  binding.pry
+
       headliners
     end
     separator
-    # input = gets_user_input
-    # if input ==
   end
 end
