@@ -1,84 +1,99 @@
+# the run.rb file creates a new instance of this class, then it calls the
+# run method on that instance. The run method then calls on other instance
+# methods in the class, in order to walk the user through our program.
+
 class CommandLineInterface
 
+  # this adds style to the code
   def pastel
     pastel = Pastel.new
     pastel
   end
 
+  # this adds a separator between steps of the code
   def separator
-    pastel
     puts "                                                      "
     puts pastel.bright_magenta("======================================================")
     puts "                                                      "
   end
 
+  # this method greets the user and prompts them to get started by entering "concerts."
   def greet
-    pastel
     separator
     puts "Welcome to #{pastel.bright_cyan('Groupie')}."
-    puts "                                                      "
     puts "Keep up with your favorite bands, never miss a show!"
     puts "Type #{pastel.bright_cyan('exit')} at any time to quit the app."
+    puts "Type #{pastel.bright_cyan('concerts')} or #{pastel.bright_cyan('bands')} for more information."
   end
 
-  def gets_user_input
-    gets.chomp
+  ## run method calls on gets.chomp to get user input
 
-  end
-
-  def display_festivals
-    pastel
+  # if user types "concerts", this displays all the concerts.
+  def display_concerts
     separator
-    puts "Here are the top U.S. music festivals:"
+    puts "Here are the top U.S. music concerts:"
     puts "                                                      "
     Concert.all.each do |concert|
       puts "#{concert.id}. #{concert.title}"
     end
-    separator
-    puts "Type the festival number to see the headliners. For "
-    puts "example, type #{pastel.bright_cyan("2")} to see Electric Zoo's headliners."
-
   end
 
-  def headliners
-    pastel
+  # promts the user to enter a concert number so they can that concert's bands.
+  def ask_for_concert_no
     separator
-    input = gets_user_input
-    puts "Here are the Headliners:"
-    selected_bands = Concert.find(input).bands
+    puts "Type the concert number to see the bands. For "
+    puts "example, type #{pastel.bright_cyan("2")} to see Electric Zoo's bands."
+  end
 
+  ## run method calls on gets.chomp to get user input.
+
+  # displays the bands for the concert that the user selected.
+  def display_bands(user_input)
+    puts "Here are the Bands:"
+    selected_bands = Concert.find(user_input).bands
     selected_bands.each do |band|
-      puts band.name
+      puts "#{band.id}. #{band.name}"
     end
-      # puts "#{index + 1}. #{band.name}"
-    #displays the Headliners for concerts
-    # puts "Eminiem"
-    # puts "The Killers"
-    input = gets_user_input
-    binding.pry
+ end
+
+ # asks user to select their favorite band.
+ def ask_for_favorite_band
+   separator
+   puts "Type the number of your favorite band"
+   puts "For example, type #{pastel.bright_cyan("2")} to see the band's concert."
+ end
+
+ def display_concerts_for_fav_band(user_input)
+    separator
+    selected_concerts = Band.find(user_input).concerts
+    selected_concerts.each do |concert|
+      puts "#{concert.id}. #{concert.title}"
+    end
 
 
-  end
+ end
 
-
-
-  def exit
+ def exit
     puts "Thank you for using our app!"
   end
 
   def run
+    # greet the user and ask them to type concerts to get started.
     greet
-    puts "Type #{pastel.bright_cyan('Festivals')} or #{pastel.bright_cyan('Headliners')} for more information."
-    puts "  "
-    # input = gets_user_input
-    # if user types "Festivals," run display_festivals.
-    input = gets_user_input
-
+    # get user's input.
+    input = gets.chomp
+    # if user typed "exit," then they exit the program.
     if input == "exit"
       exit
-    elsif input == "Festivals"
-      display_festivals
-      headliners
+    # if user typed "concerts," then the program keeps going.
+    elsif input == "concerts"
+      display_concerts
+      ask_for_concert_no
+      input = gets.chomp
+      display_bands(input)
+      ask_for_favorite_band
+      input = gets.chomp
+      display_concerts_for_fav_band(input)
     end
     separator
   end
