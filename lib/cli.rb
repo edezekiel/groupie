@@ -22,27 +22,27 @@ class CommandLineInterface
     separator
     puts "Welcome to #{pastel.bright_cyan('Groupie')}."
     puts "Keep up with your favorite bands, never miss a show!"
-    puts "Type #{pastel.bright_cyan('exit')} at any time to quit the app."
-    puts "Type #{pastel.bright_cyan('concerts')} or #{pastel.bright_cyan('bands')} for more information."
+    puts "Type #{pastel.bright_cyan('concerts')} to get started."
+    separator
   end
 
   ## run method calls on gets.chomp to get user input
 
   # if user types "concerts", this displays all the concerts.
   def display_concerts
-    separator
     puts "Here are the top U.S. music concerts:"
     puts "                                                      "
     Concert.all.each do |concert|
       puts "#{concert.id}. #{concert.title}"
     end
+    separator
   end
 
   # promts the user to enter a concert number so they can that concert's bands.
   def ask_for_concert_no
-    separator
     puts "Type the concert number to see the bands. For "
     puts "example, type #{pastel.bright_cyan("2")} to see Electric Zoo's bands."
+    separator
   end
 
   ## run method calls on gets.chomp to get user input.
@@ -50,31 +50,31 @@ class CommandLineInterface
   # displays the bands for the concert that the user selected.
   def display_bands(user_input)
     puts "Here are the Bands:"
-    selected_bands = Concert.find(user_input).bands
+    selected_bands = Concert.find(user_input).bands.sort
     selected_bands.each do |band|
       puts "#{band.id}. #{band.name}"
     end
+    separator
  end
 
  # asks user to select their favorite band.
  def ask_for_favorite_band
+   puts "Type the #{pastel.bright_cyan("number")} of your favorite band to see their upcoming concerts."
    separator
-   puts "Type the number of your favorite band"
-   puts "For example, type #{pastel.bright_cyan("2")} to see the band's concert."
  end
 
  def display_concerts_for_fav_band(user_input)
-    separator
-    selected_concerts = Band.find(user_input).concerts
+    puts "Here are their upcoming concerts:"
+    selected_concerts = Band.find(user_input).concerts.sort
     selected_concerts.each do |concert|
       puts "#{concert.id}. #{concert.title}"
     end
-
-
+    separator
  end
 
  def exit
     puts "Thank you for using our app!"
+    separator
   end
 
   def run
@@ -82,19 +82,21 @@ class CommandLineInterface
     greet
     # get user's input.
     input = gets.chomp
-    # if user typed "exit," then they exit the program.
-    if input == "exit"
-      exit
+    separator
     # if user typed "concerts," then the program keeps going.
-    elsif input == "concerts"
+    if input == "concerts"
       display_concerts
       ask_for_concert_no
       input = gets.chomp
+      separator
       display_bands(input)
       ask_for_favorite_band
       input = gets.chomp
+      separator
       display_concerts_for_fav_band(input)
+      # if user typed "exit," then they exit the program.
+    else
+      exit
     end
-    separator
   end
 end
