@@ -81,6 +81,7 @@ class CommandLineInterface
     selected_bands.each do |band|
       puts band.name
     end
+    separator
   end
 
   # lets user select whether they want to buy tickets.
