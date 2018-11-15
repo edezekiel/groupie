@@ -151,6 +151,7 @@ class CommandLineInterface
     separator
   end
 
+  #
   def band_input_choices
     input = gets.chomp
     separator
