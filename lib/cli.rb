@@ -23,6 +23,10 @@ class CommandLineInterface
     puts "Type #{pastel.bright_cyan('concerts')} to get started."
   end
 
+  # after the greet method ends, the run method asks for user input
+
+  # different methods are called depending on what the user types.
+
   # if user types "concerts", this this will run.
   def picked_concerts
     separator
@@ -70,7 +74,6 @@ class CommandLineInterface
       exit
     else
       unrecognized_input
-      exit
     end
   end
 
@@ -98,9 +101,10 @@ class CommandLineInterface
     separator
     if input.to_i == 1
       puts "Your mobile ticket will arrive soon."
+      exit
     elsif input == "exit"
       exit
-    elsif input.to_i == 0
+    elsif input == "0"
       user_rejects_ticket_offer
     else
       unrecognized_input
@@ -167,7 +171,6 @@ class CommandLineInterface
       exit
     else
       unrecognized_input
-      exit
     end
   end
 
@@ -183,14 +186,14 @@ class CommandLineInterface
 
   # allows the user to exit the program
   def exit
-    puts "Thank you for using our app!"
+    puts "Thank you for using #{pastel.bright_cyan('Groupie')}!"
     separator
   end
 
   # this outputs whenever user types something random
   def unrecognized_input
     puts "Input not recognized or is invalid."
-    separator
+    exit
   end
 
   # this function is called by the run.rb file
