@@ -31,8 +31,8 @@ class CommandLineInterface
     separator
     puts "Here are the top U.S. music festivals:"
     puts "                                                      "
-    Concert.all.each_with_index do |concert, index|
-      puts "#{index + 1}. #{concert.title}"
+    Concert.all.each do |concert|
+      puts "#{concert.id}. #{concert.title}"
     end
     separator
     puts "Type the festival number to see the headliners. For "
@@ -46,7 +46,7 @@ class CommandLineInterface
     input = gets_user_input
     puts "Here are the Headliners:"
     selected_bands = Concert.find(input).bands
-    binding.pry
+
     selected_bands.each do |band|
       puts band.name
     end
@@ -54,7 +54,13 @@ class CommandLineInterface
     #displays the Headliners for concerts
     # puts "Eminiem"
     # puts "The Killers"
+    input = gets_user_input
+    binding.pry
+
+
   end
+
+
 
   def exit
     puts "Thank you for using our app!"
