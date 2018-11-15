@@ -21,19 +21,16 @@ class CommandLineInterface
     puts "Keep up with your favorite bands, never miss a show!"
     puts "Type #{pastel.bright_cyan('exit')} at any time to quit the app."
     puts "Type #{pastel.bright_cyan('concerts')} to get started."
+    separator
   end
 
   # after the greet method ends, the run method asks for user input
-
   # different methods are called depending on what the user types.
 
   # if user types "concerts", this this will run.
   def picked_concerts
-    separator
     list_all_concerts
-    separator
     user_input_concert_id
-    separator
     concert_input_choices
   end
 
@@ -41,15 +38,17 @@ class CommandLineInterface
   def list_all_concerts
     puts "Here are the top U.S. music concerts:"
     puts "                                                      "
-    Concert.all.each_with_index do |concert, index|
-      puts "#{index + 1}. #{concert.title}"
+    Concert.all.each do |concert|
+      puts "#{concert.id}. #{concert.title}"
     end
+    separator
   end
 
   # prompts the user to select their favorite concert.
   def user_input_concert_id
     puts "Type the concert number to see the headlining bands."
     puts "For example, type #{pastel.bright_cyan("2")} to see Electric Zoo's headliners."
+    separator
   end
 
   # logic that is applied to user's concert choice.
@@ -65,11 +64,8 @@ class CommandLineInterface
     # they are walked through ticket purchase options.
     elsif input.to_i > 0
       print_bands_for_concert_id(input)
-      separator
       buy_ticket?
-      separator
       purchase_option
-      separator
     elsif input == "exit"
       exit
     else
@@ -92,6 +88,7 @@ class CommandLineInterface
     puts "Tickets for this concert cost $#{rand(100...1000)}.00."
     puts "Would you like to buy a ticket?"
     puts "(#{pastel.bright_cyan('0')} = no, #{pastel.bright_cyan('1')} = yes)."
+    separator
   end
 
   # this logic is applied to the user's response to
@@ -131,11 +128,8 @@ class CommandLineInterface
 
   # contains the functions that will run if user picks bands
   def picked_bands
-    separator
     list_all_bands
-    separator
     user_input_band_id
-    separator
     band_input_choices
   end
 
@@ -143,15 +137,17 @@ class CommandLineInterface
   def list_all_bands
     puts "Here are the top headliners:"
     puts "                                                      "
-    Band.all.each_with_index do |band, index|
-      puts "#{index + 1}. #{band.name}"
+    Band.all.each do |band|
+      puts "#{band.id}. #{band.name}"
     end
+    separator
   end
 
   # prompts the user to select their favorite band
   def user_input_band_id
     puts "Type the band number to their upcoming concerts."
     puts "For example, type #{pastel.bright_cyan("3")} to see Jack White's concerts."
+    separator
   end
 
   def band_input_choices
@@ -163,9 +159,7 @@ class CommandLineInterface
       unrecognized_input
     elsif input.to_i > 0
       print_concerts_for_band_id(input)
-      separator
       buy_ticket?
-      separator
       purchase_option
     elsif input == "exit"
       exit
@@ -182,6 +176,7 @@ class CommandLineInterface
     selected_concerts.each do |concert|
       puts concert.title
     end
+    separator
   end
 
   # allows the user to exit the program
@@ -199,7 +194,6 @@ class CommandLineInterface
   # this function is called by the run.rb file
   def run
     greet
-    separator
     input = gets.chomp
     if input == "concerts"
       picked_concerts
