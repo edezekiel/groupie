@@ -74,11 +74,13 @@ class CommandLineInterface
     end
   end
 
+  # asks user to enter a specific concert number.
   def prompt_to_type_concert_number
     puts "Type the concert number to see the headlining bands."
     puts "For example, type #{pastel.bright_cyan("2")} to see Electric Zoo's headliners."
   end
 
+  # if input is valid, it is returned to the concert_screen. Then it is used to pull up the individual concert screen.
   def validate_concert_number_input
     input = gets.chomp
     # if user makes an accetable concert choice, they are walked through ticket purchase options.
@@ -196,6 +198,8 @@ class CommandLineInterface
     separator
     list_all_concerts_for_band_id(user_input)
     separator
+    print_ticket_price
+    separator
     prompt_to_buy_ticket_or_see_all_bands
     separator
     validate_user_choice
@@ -203,12 +207,9 @@ class CommandLineInterface
 
   # prints out the concerts where the selected band is playing
   def list_all_concerts_for_band_id(user_input)
-    puts "That band is playing in these concerts:"
+    puts "Here is the next concert for that band:"
     puts "                                                      "
-    selected_concerts = Band.find(user_input).concerts
-    selected_concerts.each do |concert|
-      puts concert.title
-    end
+    puts Band.find(user_input).concerts.first.title
   end
 
   # this function is called by the run.rb file
