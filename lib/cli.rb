@@ -1,12 +1,12 @@
 class CommandLineInterface
 
-  # pastel is a gem that adds color to this program.
+  # Pastel is a gem that adds color to this program.
   def pastel
     pastel = Pastel.new
     pastel
   end
 
-  # creates visual separations in the command line while program runs
+  # Creates visual separations in the command line while program runs
   def separator
     pastel
     puts "                                                      "
@@ -14,129 +14,177 @@ class CommandLineInterface
     puts "                                                      "
   end
 
-  # general method that allows the user to exit the program
-  def exit
+  # General method that allows the user to exit_screen the program
+  def exit_screen
     puts "Thank you for using #{pastel.bright_cyan('Groupie')}!"
     separator
-  end
-
-  # general method that outputs whenever user types something random
-  def unrecognized_input
-    puts "Input not recognized or is invalid."
     exit
   end
 
-  # greets the user and provides basic instructions.
-  def greet
+  # General method that outputs whenever user types something random
+  def unrecognized_input
+    puts "Input not recognized or is invalid."
+    exit_screen
+  end
+
+  # Greet method asks user to type "concerts."
+  # The greet screen gets user input and validates that input.
+  # If the input is "concerts," this method transition to the concert screen.
+  def greet_screen
     separator
+    welcome_user
+    separator
+    input = gets.chomp
+    if input == "concerts"
+        concert_screen
+    elsif input == "exit"
+      exit_screen
+    else
+      unrecognized_input
+    end
+  end
+
+  # Greets the user and provides basic instructions.
+  def welcome_user
     puts "Welcome to #{pastel.bright_cyan('Groupie')}."
     puts "Keep up with your favorite bands, never miss a show!"
     puts "Type #{pastel.bright_cyan('exit')} at any time to quit the app."
     puts "Type #{pastel.bright_cyan('concerts')} to get started."
+  end
+
+  # the terminal displays a full list of all the top concerts.
+  # then, user is prompted to select their favorite concert.
+  # next, the program collects the user's input and validated it.
+  def concert_screen
     separator
+    list_all_concerts
+    separator
+    prompt_to_type_concert_number
+    separator
+    concert_id = validate_concert_number_input
+    individual_concert_screen(concert_id)
   end
 
-  # greet method asks user to type "concerts." This method gets user input and validates that input.
-  def validate_first_entry
-    input = gets.chomp
-    if input == "concerts"
-      @concert_input_validated = "true"
-    elsif input == "exit"
-      exit
-    else
-      unrecognized_input
-    end
-  end
-
-  # first, the terminal displays a full list of all the top concerts.
   def list_all_concerts
-    puts "Here are the top U.S. music concerts:"
+    puts "  "
+    puts "#{pastel.bright_cyan("Here are the top US music concerts in 2019:")}"
     puts "                                                      "
     Concert.all.each do |concert|
       puts "#{concert.id}. #{concert.title}"
     end
-    separator
   end
 
-  # then, user is prompted to select their favorite concert.
   def prompt_to_type_concert_number
     puts "Type the concert number to see the headlining bands."
     puts "For example, type #{pastel.bright_cyan("2")} to see Electric Zoo's headliners."
-    separator
   end
 
-  # next, the program collects the user's input and validated it.
   def validate_concert_number_input
     input = gets.chomp
-    separator
-    if input.to_i > Concert.count
-      unrecognized_input
-    elsif input.to_i < 0
-      unrecognized_input
     # if user makes an accetable concert choice, they are walked through ticket purchase options.
-    elsif input.to_i > 0
-      @concert_number_input_validated = "true"
-      @concert_number = input
+    if input.to_i > 0 && input.to_i < Concert.count
+      input.to_i
     elsif input == "exit"
-      exit
+      exit_screen
     else
       unrecognized_input
     end
   end
 
+  def individual_concert_screen(concert_id)
+    separator
+    print_bands_for_concert_id(concert_id)
+    separator
+    print_ticket_price
+    separator
+    prompt_to_buy_ticket_or_see_all_bands
+    separator
+    validate_user_choice
+  end
+
   # the terminal then prints out the bands playing at the selected concert
   def print_bands_for_concert_id(user_input)
-    puts "Here are the headliners for the concert you selected:"
+    puts "#{pastel.bright_cyan('Here are the headliners for this concert:')}"
     puts "                                                      "
     selected_bands = Concert.find(user_input).bands
     selected_bands.each do |band|
       puts band.name
     end
-    separator
   end
 
+  def print_ticket_price
+    puts "Tickets for this concert cost #{pastel.bright_cyan("$#{rand(100...500)}.00.")}"
+  end
   # the terminal then prompts the user to purchase a ticket.
-  def prompt_to_buy_ticket
-    puts "Tickets for this concert cost $#{rand(100...500)}.00."
-    puts "Would you like to buy a ticket?"
-    puts "(#{pastel.bright_cyan('0')} = no, #{pastel.bright_cyan('1')} = yes)."
-    separator
+  def prompt_to_buy_ticket_or_see_all_bands
+    puts "#{pastel.bright_cyan('Please make a selection:')}"
+      puts "  "
+      puts "#{pastel.bright_cyan('buy')} - buy tickets to this concert."
+      puts "#{pastel.bright_cyan('1')} - see the concert list again."
+      puts "#{pastel.bright_cyan('2')} - see all top bands in the US."
+      puts "#{pastel.bright_cyan('exit')} - to quit the app."
   end
 
-  # the user can choose to buy a ticket, go back, or exit the proram.
-  def purchase_option_decision_tree
+  # the user can choose to buy a ticket, go back, or exit_screen the program.
+  def validate_user_choice
     input = gets.chomp
-    separator
-    # if they buy a ticket, the program will confirm purchase and then quit.
-    if input.to_i == 1
-      puts "Your mobile ticket will arrive soon."
-      exit
-    elsif input == "exit"
-      exit
-    # if they don't want that ticket, they can see the full band list and get more information.
-    elsif input == "0"
-      @buy_ticket = "true"
+    if input =="exit"
+      exit_screen
+    elsif input == "buy"
+      ticketing_screen
+    elsif input.to_i == 1
+      concert_screen
+    elsif input.to_i == 2
+      # if user doesn't want to buy a ticket yet, they can look for other upcoming bands and/or concerts by typing bands.
+      bands_screen
     else
       unrecognized_input
     end
   end
 
-  # if user rejects ticket offer, they can look for other upcoming bands and/or concerts by typing bands.
-  def prompt_to_type_bands
-    puts "Don't see your favorite band? Type #{pastel.bright_cyan('bands')} to see a list"
-    puts "of the top 2019 concert headliners."
-    puts "Type #{pastel.bright_cyan('exit')} at any time to quit the app."
+  def ticketing_screen
     separator
+    puts "Thank you for your purchase."
+    puts "Your mobile ticket will arrive soon."
+    separator
+    exit
   end
 
-  # the program collects the user's input and validated it.
-  def validate_bands_input
-    input = gets.chomp
+  def bands_screen
     separator
-    if input == "bands"
-      @bands_input_validated = "true"
+    list_all_bands
+    separator
+    prompt_to_type_band_number
+    separator
+    validate_band_number_input
+  end
+
+  # the terminal then prints out the full band list
+  def list_all_bands
+    puts "#{pastel.bright_cyan("Here are the top headliners:")}"
+    puts "                                                      "
+    Band.all.each do |band|
+      puts "#{band.id}. #{band.name}"
+    end
+  end
+
+  # after that, the terminal prompts the user to select their favorite band
+  def prompt_to_type_band_number
+    puts "Type the band number to their upcoming concerts."
+    puts "For example, type #{pastel.bright_cyan("3")} to see Jack White's concerts."
+  end
+
+  # user's input is then validated. User can exit_screen or see see list of concerts for their selected band.
+  def validate_band_number_input
+    input = gets.chomp
+    if input.to_i > Band.count
+      unrecognized_input
+    elsif input.to_i < 0
+      unrecognized_input
+    elsif input.to_i > 0
+      individual_bands_screen(input)
     elsif input == "exit"
-      exit
+      exit_screen
     else
       unrecognized_input
     end
@@ -144,40 +192,13 @@ class CommandLineInterface
 
   # Once "bands" input is validated, user is walked through the rest of the program.
 
-  # the terminal then prints out the full band list
-  def list_all_bands
-    puts "Here are the top headliners:"
-    puts "                                                      "
-    Band.all.each do |band|
-      puts "#{band.id}. #{band.name}"
-    end
+  def individual_bands_screen(user_input)
     separator
-  end
-
-  # after that, the terminal prompts the user to select their favorite band
-  def prompt_to_type_band_number
-    puts "Type the band number to their upcoming concerts."
-    puts "For example, type #{pastel.bright_cyan("3")} to see Jack White's concerts."
+    list_all_concerts_for_band_id(user_input)
     separator
-  end
-
-  # user's input is then validated. User can exit or see see list of concerts for their selected band.
-  def validate_band_number_input
-    input = gets.chomp
+    prompt_to_buy_ticket_or_see_all_bands
     separator
-    if input.to_i > Band.count
-      unrecognized_input
-    elsif input.to_i < 0
-      unrecognized_input
-    elsif input.to_i > 0
-      # if user types a valid band number, they are prompted to buy a ticket.
-      @band_number = input
-      @bands_input_number_validated = "true"
-    elsif input == "exit"
-      exit
-    else
-      unrecognized_input
-    end
+    validate_user_choice
   end
 
   # prints out the concerts where the selected band is playing
@@ -188,40 +209,11 @@ class CommandLineInterface
     selected_concerts.each do |concert|
       puts concert.title
     end
-    separator
   end
 
   # this function is called by the run.rb file
   def run
-
-    greet
-    validate_first_entry
-
-
-    if @concert_input_validated
-      list_all_concerts
-      prompt_to_type_concert_number
-      validate_concert_number_input
-    end
-    if @concert_number_input_validated
-      print_bands_for_concert_id(@concert_number)
-      prompt_to_buy_ticket
-      purchase_option_decision_tree
-    end
-    if @buy_ticket
-      prompt_to_type_bands
-      validate_bands_input
-    end
-    if @bands_input_validated
-      list_all_bands
-      prompt_to_type_band_number
-      validate_band_number_input
-    end
-    if @bands_input_number_validated
-      list_all_concerts_for_band_id(@band_number)
-      prompt_to_buy_ticket
-      purchase_option_decision_tree
-    end
-    exit
+    greet_screen
+    exit_screen
   end
 end
