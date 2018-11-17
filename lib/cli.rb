@@ -39,13 +39,14 @@ class CommandLineInterface
 
   def session_screen
     separator
-    binding.pry
-    association_test
+    new_band
   end
 
-  def association_test
-    first_band = Band.first
-    first_band.concerts.create(:title => "sample")
+  def new_band
+    puts "Enter the name for a new band."
+    input = gets.chomp
+    new_band = Band.create(name: input)
+    new_band.concerts.create(:title => "awesome_concert")
   end
   # this function is called by the run.rb file
   def run
